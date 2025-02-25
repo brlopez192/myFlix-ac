@@ -6,7 +6,7 @@ import { MatDialogContent } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-movie-card',
-  imports: [MatCardModule, MatDialogContent ],
+  imports: [MatCardModule, MatDialogContent, CommonModule ],
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss']
 })
