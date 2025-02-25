@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import {Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import {throwError, Observable} from 'rxjs';
 
 
 const apiUrl = "https://movieflixapp-88791d8c1b4d.herokuapp.com/"
@@ -12,24 +12,7 @@ const apiUrl = "https://movieflixapp-88791d8c1b4d.herokuapp.com/"
 export class FetchApiDataService {
   constructor(private http: HttpClient) {}
 
-  // **User registration**
-  public userRegistration(userDetails: any): Observable<any> {
-    console.log('Attempting to register with:', userDetails);
-
-    return this.http
-      .post(apiUrl + 'users', userDetails, {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      })
-      .pipe(
-        map((response) => {
-          console.log('Registration successful:', response);
-          return response;
-        }),
-        catchError(this.handleError),
-      );
-  }
-
-  // **User login (store Token)**
+  // Login
   public userLogin(userDetails: any): Observable<any> {
     return this.http.post(apiUrl + 'login', userDetails).pipe(
       map((response: any) => {
@@ -42,7 +25,24 @@ export class FetchApiDataService {
     );
   }
 
-  // Helper: Get authorization headers
+    // Registration
+    public userRegistration(userDetails: any): Observable<any> {
+      console.log('Attempting to register with:', userDetails);
+  
+      return this.http
+        .post(apiUrl + 'users', userDetails, {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        })
+        .pipe(
+          map((response) => {
+            console.log('Registration successful:', response);
+            return response;
+          }),
+          catchError(this.handleError),
+        );
+    }
+
+  // Get authorization headers
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token') || '';
     return new HttpHeaders({
@@ -50,21 +50,21 @@ export class FetchApiDataService {
     });
   }
 
-  // **Get all movies**
+  // Get all movies
   public getAllMovies(): Observable<any> {
     return this.http
       .get(apiUrl + 'movies', { headers: this.getAuthHeaders() })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // **Get one movie**
+  // Get one movie
   public getMovie(movieId: string): Observable<any> {
     return this.http
       .get(apiUrl + `movies/${movieId}`, { headers: this.getAuthHeaders() })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // **Get director**
+  // Get director
   public getDirector(directorName: string): Observable<any> {
     return this.http
       .get(apiUrl + `directors/${directorName}`, {
@@ -73,28 +73,28 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // **Get genre**
+  // Get genre
   public getGenre(genreName: string): Observable<any> {
     return this.http
       .get(apiUrl + `genres/${genreName}`, { headers: this.getAuthHeaders() })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // **Get user data**
+  // Get user data
   public getUser(): Observable<any> {
     return this.http
       .get(apiUrl + 'users', { headers: this.getAuthHeaders() })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // **Get Favorites for a user**
+  // Get Favorites for a user
   public getFavoriteMovies(): Observable<any> {
     return this.http
       .get(apiUrl + 'users/favorites', { headers: this.getAuthHeaders() })
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // **Add to Favorites**
+  // Add to Favorites
   public addFavoriteMovie(movieId: string): Observable<any> {
     return this.http
       .post(
@@ -105,21 +105,21 @@ export class FetchApiDataService {
       .pipe(catchError(this.handleError));
   }
 
-  // **Edit User**
+  // Edit User
   public editUser(updatedDetails: any): Observable<any> {
     return this.http
       .put(apiUrl + 'users', updatedDetails, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 
-  // **Delete User**
+  // Delete User
   public deleteUser(): Observable<any> {
     return this.http
       .delete(apiUrl + 'users', { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 
-  // **Delete Movie from Favorites**
+  // Delete Movie from Favorites
   public removeFavoriteMovie(movieId: string): Observable<any> {
     return this.http
       .delete(apiUrl + `users/favorites/${movieId}`, {
@@ -128,12 +128,12 @@ export class FetchApiDataService {
       .pipe(catchError(this.handleError));
   }
 
-  // **Extract Response Data**
+  // Extract Response Data
   private extractResponseData(res: any): any {
     return res || {};
   }
 
-  // **Error Handling**
+  //  Error Handling 
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.error('Backend returned status:', error.status);
     console.error('Full error response:', error);
