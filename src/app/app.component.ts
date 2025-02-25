@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common'; // for *ngIf
 import { UserRegistrationFormComponent } from './user-registration-form/user-registration-form.component';
 import { UserLoginFormComponent } from './user-login-form/user-login-form.component';
+import { MovieCardComponent } from './movie-card/movie-card.component';
 
 @Component({
   selector: 'app-root',
@@ -30,5 +31,9 @@ openUserRegistrationDialog(): void {
         width: "280px"
     })
 }
-
+openMoviesDialog(): void {
+  this.dialog.open(MovieCardComponent, {
+    width: '500px'
+  });
+}
 }
