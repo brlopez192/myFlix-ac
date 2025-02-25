@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FetchApiDataService } from '../fetch-api-data.service'
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogContent } from '@angular/material/dialog';
